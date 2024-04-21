@@ -1,5 +1,6 @@
 package com.goodReads.library.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //@Getter
@@ -12,8 +13,8 @@ public class Book {
     private String id;
     private String title;
     private String author;
-    private String genre;
-
+//    private String genre;
+private Genre genre;
     private Double rating; //non-primitive wrapper classes allows for null values to be assigned to these fields. For example, if a book's rating or cost is not available or not applicable,
     // you can set them to null. A primitive type always has a value. Can be used in collections like List, Map, etc.,
     // without the need for autoboxing/unboxing. Integer provides methods for parsing strings to integers (parseInt())
@@ -53,14 +54,21 @@ public class Book {
         this.author = author;
     }
 
-    public String getGenre() {
+//    public String getGenre() {
+//        return genre;
+//    }
+//
+//    public void setGenre(String genre) {
+//        this.genre = genre;
+//    }
+
+    public Genre getGenre() {
         return genre;
     }
 
-    public void setGenre(String genre) {
+    public void setGenre(Genre genre) {
         this.genre = genre;
     }
-
     public Double getRating() {
         return rating;
     }
@@ -85,6 +93,7 @@ public class Book {
         this.reviewList = reviewList;
     }
 
+
     public Integer getYear() {
         return year;
     }
@@ -94,9 +103,11 @@ public class Book {
     }
 
     public Book() {
+        this.reviewList = new ArrayList<>();
+
     }
 
-    public Book(String id, String title, String author, String genre, Double rating, Double cost, List<Review> reviewList, Integer year) {
+    public Book(String id, String title, String author, Genre genre, Double rating, Double cost, List<Review> reviewList, Integer year) {
         this.id = id;
         this.title = title;
         this.author = author;
