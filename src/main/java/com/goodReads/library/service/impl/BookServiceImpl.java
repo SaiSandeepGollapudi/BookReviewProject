@@ -42,7 +42,7 @@ public class BookServiceImpl implements BookService {
 
     public List<Book> getBooksByTitleLike(String title){
 
-        return bookRepository.findByTitleLike(title);
+        return bookRepository.findByTitleIgnoreCaseContaining(title);
     }
 
 
@@ -60,7 +60,36 @@ public class BookServiceImpl implements BookService {
         bookRepository.deleteById(id);
     }
 
-      public List<Book> getBooksByGenre(Genre genre) {
+    public boolean bookExists(Integer id) {
+        return bookRepository.existsById(id);
+    }
+
+    @Override
+    public boolean bookExistsByAuthor(String author) {
+        return bookRepository.existsByAuthor(author);
+    }
+
+    @Override
+    public boolean bookExistsByTitle(String title) {
+        return bookRepository.existsByTitle(title);
+    }
+
+    @Override
+    public boolean bookExistsByYear(Integer year) {
+        return bookRepository.existsByYear(year);
+    }
+
+    @Override
+    public boolean bookExistsByAuthorAndYear(String author, Integer year) {
+        return bookRepository.existsByAuthorAndYear(author, year);
+    }
+
+    @Override
+    public boolean bookExistsByGenre(Genre genre) {
+        return bookRepository.existsByGenre(genre);
+    }
+
+    public List<Book> getBooksByGenre(Genre genre) {
           return bookRepository.findByGenre(genre);
       }
 
@@ -93,6 +122,10 @@ public class BookServiceImpl implements BookService {
 
     public List<Book> getBooksByAuthorAndGenre(String author, Genre genre){
         return bookRepository.findByAuthorAndGenre(author,genre);
+    }
+
+    public List<Book> getBooksByAuthorAndYear(String author, Integer year){
+        return bookRepository.findByAuthorAndYear(author,year);
     }
 
 

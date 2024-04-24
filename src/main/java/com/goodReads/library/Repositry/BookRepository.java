@@ -12,13 +12,30 @@ public interface BookRepository extends JpaRepository<Book,Integer> {
     List<Book> findByAuthor(String author);
     List<Book> findByYear(Integer year);
     List<Book> findByGenre(Genre genre);
+
+    List<Book> findByAuthorAndYear(String author, Integer Year);
+
+    //    List<Book>  findBooksByRating(Double rating);
+    List<Book> findByTitleIgnoreCaseContaining(String title);
+
+    boolean existsByAuthor(String author);
+
+    boolean existsByTitle(String title);
+
+    boolean existsByYear(Integer year);
+
     @Query("SELECT book FROM Book book WHERE book.author = :author AND book.genre = :genre")
     List<Book> findByAuthorAndGenre(String author, Genre genre);
-//    List<Book>  findBooksByRating(Double rating);
+
     @Query("select book from Book book where title like :title")// @Query to write custom queries, * is not supported, so we use book from Book book
     List<Book> findByTitleLike2(String title);
-@Query("select book from Book book  where title like ?1")
+@Query("select book from Book book  where title like ?1")// what ever is passed in the String parameter for title is replaced by 1
     List<Book> findByTitleLike(String title);
+
+    boolean existsByAuthorAndYear(String author, Integer year);
+
+    boolean existsByGenre(Genre genre);
+
 
 //List<Book> findByRatingGreaterThan(Double rating);
 

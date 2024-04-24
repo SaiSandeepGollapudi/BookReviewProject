@@ -17,8 +17,7 @@ public class ControllerAdvice {
 public ResponseEntity<?> handleNullPointerException(NullPointerException e){
         return new ResponseEntity<>("something went wrong please try again", HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+        @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {// <?> wildcard indicates that the response body can be of any type, map in this
         // case and String in above case
         // Create a map to store field errors, where the field name is the key and the error message is the value
@@ -38,6 +37,8 @@ public ResponseEntity<?> handleNullPointerException(NullPointerException e){
         // Set the HTTP status to BAD_REQUEST to indicate that the client's request was malformed due to validation errors
         return new ResponseEntity<>(errorsMap, HttpStatus.BAD_REQUEST);
     }
+
+
 
 
 }

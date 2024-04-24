@@ -24,6 +24,10 @@ public class AdminController {
     @PutMapping("admin/book")//PUT is used to update or replace an existing resource.
 //    PUT does not create a new resource if it's not already present; it typically returns an error if the resource does not exist.
     public ResponseEntity<Book> updateBook(@RequestParam("bookId") Integer id,@RequestBody @Valid BookRequest bookRequest){
+        if (!bookService.bookExists(id)) {
+            // Return a response with HTTP status NOT_FOUND if the book does not exist
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(bookService.updateBook(id, bookRequest.getBook()),HttpStatus.OK);
 
     }
@@ -37,6 +41,10 @@ public class AdminController {
         //ex: /admin/book?bookId=1, Spring has rule that if in ur url there is variable bookId then is same as the
         // variable name it can automatically map it
         try {
+            if (!bookService.bookExists(id)) {
+                // Return a response with HTTP status NOT_FOUND if the book does not exist
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         bookService.deleteBook(id);
         // Return a response with HTTP status NO_CONTENT
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

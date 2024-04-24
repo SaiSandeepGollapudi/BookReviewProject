@@ -1,6 +1,7 @@
 package com.goodReads.library;
 
 import com.goodReads.library.Repositry.BookRepository;
+import com.goodReads.library.Repositry.UserRepository;
 import com.goodReads.library.domain.Book;
 import com.goodReads.library.domain.Genre;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,32 +25,35 @@ public class LibraryApplication implements CommandLineRunner {
 	@Autowired
 	BookRepository bookRepository;// id we auto wire the interface the implementation part is taken care by spring
 
+	@Autowired
+	UserRepository userRepository;
 //	@Autowired
 //	DBConfiguration dBConfiguration;
 
 	@Override
 	public void run(String... args) throws Exception {
-
-		Book book= new Book();// every time we run the app a new book will get added in db.  It's a common practice to include such code in the run method of a Spring Boot
-		// application's main class to initialize sample data or perform startup tasks when the application starts.
-		book.setTitle("Harry potter 1");
-		book.setAuthor("JK Rowling");
-		book.setGenre(Genre.FANTASY);
-		book.setCost(500.0);
-		book.setYear(2000);
-
-bookRepository.save(book);
+//
+//		Book book= new Book();// every time we run the app a new book will get added in db.  It's a common practice to include such code in the run method of a Spring Boot
+//		// application's main class to initialize sample data or perform startup tasks when the application starts.
+//		book.setTitle("Harry potter 1");
+//		book.setAuthor("JK Rowling");
+//		book.setGenre(Genre.FANTASY);
+//		book.setCost(500.0);
+//		book.setYear(2000);
+//
+//bookRepository.save(book);
 //		this code snippet serves as an example of how to perform basic database operations using Spring Data JPA and demonstrates the usage of various query methods
 //		provided by the BookRepository.
 		List<Book> books=bookRepository.findAll();
 
 		books=bookRepository.findByAuthor("JK Rowling");
 
-		books=bookRepository.findByTitleLike("Harry%");
+//		books=bookRepository.findByTitleLike("Harry%");
 
 
 		books=bookRepository.findByAuthorAndGenre("JK Rowling", Genre.valueOf("FANTASY"));
 
+		books=bookRepository.findByAuthorAndYear("JK Rowling",1999);
 		for(Book book1:books){
 			System.out.println(book1);
 		}
