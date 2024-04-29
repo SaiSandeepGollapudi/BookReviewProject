@@ -4,12 +4,16 @@ import com.goodReads.library.Repositry.BookRepository;
 import com.goodReads.library.Repositry.UserRepository;
 import com.goodReads.library.domain.Book;
 import com.goodReads.library.domain.Genre;
+import com.goodReads.library.domain.Review;
+import com.goodReads.library.service.impl.BookCascadeSampleImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
@@ -29,9 +33,40 @@ public class LibraryApplication implements CommandLineRunner {
 	UserRepository userRepository;
 //	@Autowired
 //	DBConfiguration dBConfiguration;
+@Autowired
+BookCascadeSampleImpl bookCascadeSample;
 
 	@Override
 	public void run(String... args) throws Exception {
+
+
+		bookCascadeSample.testCascade(3);
+
+
+		Book book=new Book();
+		book.setTitle("testCascade");
+		book.setAuthor("JK Rowling");
+		book.setGenre(Genre.FANTASY);
+		book.setRating(5.0);
+		book.setCost(500.0);
+		book.setYear(2000);
+		List<Review> reviews=new ArrayList<>();
+		reviews.add(new Review());
+
+		bookRepository.save(book);
+
+		List<Book> books =bookRepository.findAll();
+
+		//books=bookRepository.findByAuthor("JK Rowling");
+
+		books=bookRepository.findByTitleLike("testCascade");
+
+		if(!CollectionUtils.isEmpty(books)){
+			Book b=books.get(0);
+			bookCascadeSample.testCascade(b.getId());
+
+		}
+
 //
 //		Book book= new Book();// every time we run the app a new book will get added in db.  It's a common practice to include such code in the run method of a Spring Boot
 //		// application's main class to initialize sample data or perform startup tasks when the application starts.
@@ -44,7 +79,7 @@ public class LibraryApplication implements CommandLineRunner {
 //bookRepository.save(book);
 //		this code snippet serves as an example of how to perform basic database operations using Spring Data JPA and demonstrates the usage of various query methods
 //		provided by the BookRepository.
-		List<Book> books=bookRepository.findAll();
+		//List<Book> books=bookRepository.findAll();
 
 		books=bookRepository.findByAuthor("JK Rowling");
 

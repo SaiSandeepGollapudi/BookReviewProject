@@ -1,5 +1,6 @@
 package com.goodReads.library.controller;
 
+import com.goodReads.library.Repositry.BookRepository;
 import com.goodReads.library.domain.Book;
 import com.goodReads.library.domain.Genre;
 import com.goodReads.library.service.BookService;
@@ -15,6 +16,9 @@ import java.util.List;
 
 @RestController
 public class UserBookController { // APIs are inside the controller
+
+    @Autowired
+    BookRepository bookRepository;
 
     @Autowired
     BookService bookService; // Autowired BookService to interact with the business logic
@@ -118,6 +122,7 @@ public class UserBookController { // APIs are inside the controller
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
 //    @GetMapping("/book/rating")// anything inside {rating} is  part of url, it's given dynamically by user.
 //    public ResponseEntity<List<Book>> getBooksByRating(@RequestParam("rating") Double bookRating){// @PathVariable mapping id in URL to parameter
 //        try {

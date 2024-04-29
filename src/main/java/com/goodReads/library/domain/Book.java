@@ -1,12 +1,15 @@
 package com.goodReads.library.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.Builder;
+import lombok.*;
 
-//@Getter
-//@Setter
+import java.util.List;
+
+@Getter
+@Setter
 //@NoArgsConstructor
-//@AllArgsConstructor
+@AllArgsConstructor
 @Table(name="books")
 @Entity
 @Builder
@@ -33,6 +36,16 @@ private Genre genre;
 
     private Integer year;
 
+    // Book - Review
+    // One book can have multiple reviews
+    @OneToMany(mappedBy = "book",fetch = FetchType.EAGER,cascade= CascadeType.DETACH)///@OneToMany- As it's in the Book class and books can have many reviews.
+    // Mapped by is equal to which field in Review owns this relationship.It's the book field.// As per JPA,If the relationship is bidirectional, the mappedBy element must be used
+    // to specify the relationship field or property of the entity that is the owner of the relationship.
+    @JsonIgnoreProperties("book")// we are telling book object should be ignored when retrieving Review so that it doesn't go into loop
+    private List<Review> reviewList;
+    public List<Review> getReviewList() {
+        return reviewList;
+    }
     public Book() {
 
     }

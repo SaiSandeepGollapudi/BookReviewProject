@@ -20,6 +20,10 @@ public class BookServiceImpl implements BookService {
     @Autowired
     BookRepository bookRepository;
 
+    @Autowired
+    public void setBookRepository(BookRepository bookRepository){
+        this.bookRepository=bookRepository;
+    }
 
     public void  addBook(Book book){
 
@@ -27,9 +31,18 @@ public class BookServiceImpl implements BookService {
     }
 
     public List<Book> getAllBooks(){
+        List<Book> bookList=bookRepository.findAll();//bookRepository is mock for BookRepository i.e a dummy object for bookRepository which was created in test class
+        // it gives empty output, i.e. an object with all values as null, it doesn't go to db
+        if(bookList.isEmpty()){
+            throw new IllegalStateException("books list cannot be empty");// so because of above dummy object we got an exception, so one scenario is working getAllBooks()
+        }
 
-        return bookRepository.findAll();
+        return bookList;// now one object with all values as null is created so this test passed as well
     }
+    //    public List<Book> getAllBooks(){
+//
+//        return bookRepository.findAll();
+//    }
     public List<Book> getBooksByAuthor(String author){
 
         return bookRepository.findByAuthor(author);
