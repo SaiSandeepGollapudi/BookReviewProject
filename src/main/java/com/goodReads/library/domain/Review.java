@@ -22,7 +22,7 @@ public class Review {
     // Many reviews can be on one book
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "book_id")  // classname _ the varaiable name of ID.
+    @JoinColumn(name = "book_id")   // class name _ the variable name of ID.
     private Book book;
 }
 

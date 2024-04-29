@@ -17,7 +17,7 @@ public class BookServiceImpl implements BookService {
 //        //    DummyService dummyService;
 //    // HashMap to store Book objects with their IDs as keys
 
-    @Autowired
+
     BookRepository bookRepository;
 
     @Autowired
@@ -25,10 +25,30 @@ public class BookServiceImpl implements BookService {
         this.bookRepository=bookRepository;
     }
 
-    public void  addBook(Book book){
+//    public void  addBook(Book book){
+//
+//        bookRepository.save(book);
+//    }
+@Autowired
+BookValidation bookValidation;
 
-        bookRepository.save(book);
+    public void setBookValidation(BookValidation bookValidation){
+        this.bookValidation=bookValidation;// for testing we use set injection
     }
+public void addBook(Book book){
+
+    if(!bookValidation.validateBook(book)){
+
+        throw new IllegalArgumentException("Book is not valid");
+    }
+
+        if(book.getTitle().contains("ABC"))
+    {
+        throw new IllegalStateException("Title cannot be ABC");
+    }
+
+    bookRepository.save(book);
+}
 
     public List<Book> getAllBooks(){
         List<Book> bookList=bookRepository.findAll();//bookRepository is mock for BookRepository i.e a dummy object for bookRepository which was created in test class
