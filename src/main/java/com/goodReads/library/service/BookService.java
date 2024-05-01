@@ -2,7 +2,6 @@ package com.goodReads.library.service;
 
 import com.goodReads.library.domain.Book;
 import com.goodReads.library.domain.Genre;
-import com.goodReads.library.domain.Review;
 
 import java.util.List;
 
@@ -34,7 +33,7 @@ public interface BookService {
     public void deleteBook(Integer Id);
     public Book updateBook(Integer Id, Book book);
 
-    public void addReview(String bookId, Review review);
+  //  public void addReview(String bookId, Review review);
 
 
     public List<Book> getBooksByGenre(Genre genre);
@@ -43,7 +42,6 @@ public interface BookService {
     public List<Book> getBooksByYear(Integer year);
 
 //
-//    public List<Review> getReviewsByBookId(String bookId);
 
 
     //    public void addBook(Book book);

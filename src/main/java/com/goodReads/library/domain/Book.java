@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-//@NoArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 @Table(name="books")
 @Entity
@@ -38,17 +38,15 @@ private Genre genre;
 
     // Book - Review
     // One book can have multiple reviews
-    @OneToMany(mappedBy = "book",fetch = FetchType.EAGER,cascade= CascadeType.DETACH)///@OneToMany- As it's in the Book class and books can have many reviews.
+    @OneToMany(mappedBy = "book",fetch = FetchType.EAGER,cascade= CascadeType.REMOVE)///@OneToMany- As it's in the Book class and books can have many reviews.
     // Mapped by is equal to which field in Review owns this relationship.It's the book field.// As per JPA,If the relationship is bidirectional, the mappedBy element must be used
     // to specify the relationship field or property of the entity that is the owner of the relationship.
     @JsonIgnoreProperties("book")// we are telling book object should be ignored when retrieving Review so that it doesn't go into loop
     private List<Review> reviewList;
-    public List<Review> getReviewList() {
-        return reviewList;
-    }
-    public Book() {
 
-    }
+
+
+
 
     /***
      * Types of ID generation
@@ -62,94 +60,6 @@ private Genre genre;
     @Override
     public int hashCode() {
         return Integer.valueOf(getId());
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-//    public String getTitle() {
-//        return title;
-//    }
-//
-//    public void setTitle(String title) {
-//        this.title = title;
-//    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-//    public String getGenre() {
-//        return genre;
-//    }
-//
-//    public void setGenre(String genre) {
-//        this.genre = genre;
-//    }
-
-    public Genre getGenre() {
-        return genre;
-    }
-
-    public void setGenre(Genre genre) {
-        this.genre = genre;
-    }
-    public Double getRating() {
-        return rating;
-    }
-
-    public void setRating(Double rating) {
-        this.rating = rating;
-    }
-
-    public Double getCost() {
-        return cost;
-    }
-
-    public void setCost(Double cost) {
-        this.cost = cost;
-    }
-
-//    public List<Review> getReviewList() {
-//        return reviewList;
-//    }
-
-//    public void setReviewList(List<Review> reviewList) {
-//        this.reviewList = reviewList;
-//    }
-
-
-    public Integer getYear() {
-        return year;
-    }
-
-    public void setYear(Integer year) {
-        this.year = year;
-    }
-
-//    public Book() {
-//        this.reviewList = new ArrayList<>();
-//
-//    }
-
-    public Book(Integer id, String title, String author, Genre genre, Double rating, Double cost, Integer year) {
-        this.id = id;
-        this.title = title;
-        this.author = author;
-        this.genre = genre;
-        this.rating = rating;
-        this.cost = cost;
-        //this.reviewList = reviewList;
-        this.year = year;
     }
 
 

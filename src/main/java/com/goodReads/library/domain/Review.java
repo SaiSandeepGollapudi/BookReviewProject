@@ -30,8 +30,8 @@ public class Review {
  * Association
  *
  * 1. Unidirectional ->
- *          From one entity you can fetch the another entity.
- *          not true for vice versa.
+ *          From one entity you can fetch the another entity. not true for vice versa.
+ *          Like from Book we can fetch review but with Review we cannot fetch Book
  * 2. BiDirectional
  *          From one entity out of 2, anyone can fetch other entity
  *

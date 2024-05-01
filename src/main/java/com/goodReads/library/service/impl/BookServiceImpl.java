@@ -3,7 +3,6 @@ package com.goodReads.library.service.impl;
 import com.goodReads.library.Repositry.BookRepository;
 import com.goodReads.library.domain.Book;
 import com.goodReads.library.domain.Genre;
-import com.goodReads.library.domain.Review;
 import com.goodReads.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,6 +58,9 @@ public void addBook(Book book){
 
         return bookList;// now one object with all values as null is created so this test passed as well
     }
+
+
+
     //    public List<Book> getAllBooks(){
 //
 //        return bookRepository.findAll();
@@ -166,8 +168,8 @@ public void addBook(Book book){
 //     return bookRepository.findBooksByRating(rating);
 //
 // }
-    @Override
-    public void addReview(String bookId, Review review) {
+//    @Override
+//    public void addReview(String bookId, Review review) {
 //       Book book=bookMap.getOrDefault(bookId,null);
 //
 //       if(book!=null)
@@ -175,7 +177,7 @@ public void addBook(Book book){
 //         //  book.getReviewList().add(review);
 //       }
 //       bookMap.put(bookId,book);
-    }
+//    }
 //
 //@Autowired
 ////@Qualifier("mysqlDatabaseConnection")// As we used Qualifier for both connections we can call a specific connection by its name mysqlDatabaseConnection or oracleDatabaseConnection
@@ -280,17 +282,7 @@ public void addBook(Book book){
 //        return booksByYear;
 //    }
 //
-//    @Override
-//    public List<Review> getReviewsByBookId(String bookId) {
-//        // Retrieve the book from the map by its ID
-//        Book book = bookMap.getOrDefault(bookId, null);
-//        if (book != null) {
-//            // Return the review list of the book
-//            return book.getReviewList();
-//
-//        }
-//        return null;
-//    }
+
 //
 //
 //    // Method to delete a book by its ID

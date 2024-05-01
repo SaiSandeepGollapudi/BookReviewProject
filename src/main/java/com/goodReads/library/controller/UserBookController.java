@@ -3,6 +3,7 @@ package com.goodReads.library.controller;
 import com.goodReads.library.Repositry.BookRepository;
 import com.goodReads.library.domain.Book;
 import com.goodReads.library.domain.Genre;
+import com.goodReads.library.domain.Review;
 import com.goodReads.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,21 +23,21 @@ public class UserBookController { // APIs are inside the controller
 
     @Autowired
     BookService bookService; // Autowired BookService to interact with the business logic
+
     @GetMapping("/book")
     public ResponseEntity<List<Book>> getAllBooks() {
         try {
 
             // Retrieve all books from the service layer and return as a response with HTTP status OK
             return new ResponseEntity<>(bookService.getAllBooks(), HttpStatus.OK);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     // Endpoint to get a specific book by ID
     @GetMapping("/book/{id}")// anything inside {id} is  part of url, it's given dynamically by user.
-    public ResponseEntity<Book> getBook(@PathVariable("id") Integer bookId){// @PathVariable annotation maps dynamic id value from the URL path to bookId parameter in method signature.
+    public ResponseEntity<Book> getBook(@PathVariable("id") Integer bookId) {// @PathVariable annotation maps dynamic id value from the URL path to bookId parameter in method signature.
         // The name bookId is used here to indicate that it represents the ID of book being requested. However, you could have named it id as well, and it would still work the same way.
         try {
             if (!bookService.bookExists(bookId)) {
@@ -48,8 +49,9 @@ public class UserBookController { // APIs are inside the controller
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
     @GetMapping("/book/author")// anything inside {id} is  part of url, it's given dynamically by user.
-    public ResponseEntity<List<Book>> getBookByAuthor(@RequestParam("author") String bookAuthor){// @PathVariable annotation maps dynamic id value from the URL path to bookId parameter in method signature.
+    public ResponseEntity<List<Book>> getBookByAuthor(@RequestParam("author") String bookAuthor) {// @PathVariable annotation maps dynamic id value from the URL path to bookId parameter in method signature.
         // The name bookId is used here to indicate that it represents the ID of book being requested. However, you could have named it id as well, and it would still work the same way.
         try {
             if (!bookService.bookExistsByAuthor(bookAuthor)) {
@@ -63,7 +65,7 @@ public class UserBookController { // APIs are inside the controller
     }
 
     @GetMapping("/book/title")// anything inside {id} is  part of url, it's given dynamically by user.
-    public ResponseEntity<List<Book>> getBooksByTitle(@RequestParam("title") String bookTitle){// @PathVariable annotation maps dynamic id value from the URL path to bookId parameter in method signature.
+    public ResponseEntity<List<Book>> getBooksByTitle(@RequestParam("title") String bookTitle) {// @PathVariable annotation maps dynamic id value from the URL path to bookId parameter in method signature.
         // The name bookId is used here to indicate that it represents the ID of book being requested. However, you could have named it id as well, and it would still work the same way.
         try {
             if (!bookService.bookExistsByTitle(bookTitle)) {
@@ -75,7 +77,8 @@ public class UserBookController { // APIs are inside the controller
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-//
+
+    //
     @GetMapping("/book/year")
     public ResponseEntity<List<Book>> getBooksByYear(@RequestParam("year") Integer year) {
         try {
@@ -101,7 +104,7 @@ public class UserBookController { // APIs are inside the controller
     }
 
     @GetMapping("/book/titleLike")
-    public ResponseEntity<List<Book>> getBooksByTitleLike(@RequestParam("title") String bookTitleLike){// @PathVariable annotation maps dynamic id value from the URL path to bookId parameter in method signature.
+    public ResponseEntity<List<Book>> getBooksByTitleLike(@RequestParam("title") String bookTitleLike) {// @PathVariable annotation maps dynamic id value from the URL path to bookId parameter in method signature.
         // The name bookId is used here to indicate that it represents the ID of book being requested. However, you could have named it id as well, and it would still work the same way.
         try {
             return new ResponseEntity<>(bookService.getBooksByTitleLike(bookTitleLike), HttpStatus.OK);
@@ -111,7 +114,7 @@ public class UserBookController { // APIs are inside the controller
     }
 
     @GetMapping("/book/genre")
-    public ResponseEntity<List<Book>> getBooksByGenre(@RequestParam("genre") Genre genre){
+    public ResponseEntity<List<Book>> getBooksByGenre(@RequestParam("genre") Genre genre) {
         try {
             if (!bookService.bookExistsByGenre(genre)) {
                 // Return a response with HTTP status NOT_FOUND if the book does not exist
@@ -142,16 +145,10 @@ public class UserBookController { // APIs are inside the controller
 //    }
 //
 //
-//    @GetMapping("/{bookId}/review")
-//    public ResponseEntity<List<Review>> getReviewsByBookId(@PathVariable("bookId") String bookId) {
-//        try {
-//            return new ResponseEntity<>(bookService.getReviewsByBookId(bookId), HttpStatus.OK);
-//    } catch (IllegalArgumentException e) {
-//        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//    }
+
 //    }
 
-    //
+            //
 //
 //    @PostMapping("{bookId}/review")
 //    //@RequestMapping(method = RequestMethod.POST,path = "{bookId}/review")
@@ -169,7 +166,8 @@ public class UserBookController { // APIs are inside the controller
 //        }
 //    }
 //
-}
 
+
+}
 //exception handling for post methods when admin
 // in next class, will teach db, security, validations, where we can add validations for each field, eg check if the email is proper, if not throw 400, if any internal issues, handle 500

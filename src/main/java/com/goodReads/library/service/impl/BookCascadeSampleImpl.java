@@ -14,7 +14,6 @@ public class BookCascadeSampleImpl {
 
         bookRepository.deleteById(id);
 
-
     }
 
 }
