@@ -1,6 +1,7 @@
 package com.goodReads.library.service.impl;
 
 import com.goodReads.library.Repositry.BookRepository;
+import com.goodReads.library.Repositry.ReviewRepository;
 import com.goodReads.library.domain.Book;
 import com.goodReads.library.domain.Genre;
 import com.goodReads.library.service.BookService;
@@ -16,7 +17,8 @@ public class BookServiceImpl implements BookService {
 //        //    DummyService dummyService;
 //    // HashMap to store Book objects with their IDs as keys
 
-
+    @Autowired
+    ReviewRepository reviewRepository;
     BookRepository bookRepository;
 
     @Autowired
@@ -48,6 +50,42 @@ public void addBook(Book book){
 
     bookRepository.save(book);
 }
+
+
+    // Method to add a review to a book
+//    @Override
+//    public void addReview(Integer bookId, Review review) {
+//        // Retrieve the book from the map by its ID
+//        Book book = new Book();
+//        Optional<Book> bookOptional=bookRepository.findById(review.getBook().getId());
+//        if(bookOptional.isEmpty()){
+//            throw new IllegalArgumentException("Book Id does not exist");
+//        }
+//        else {
+//            // Add the review to the book's review list
+//            book.getReviewList().add(review);
+//        }
+//
+//        // Update the book in the map
+//        review.setBook(bookOptional.get());
+//        reviewRepository.save(review);
+//
+//        Optional<Book> bookOptional1= bookRepository.findById(bookId);
+//        List<Review> reviewList= bookOptional1.getReviewList();
+//        List<Double> ratings= new ArrayList<Double>();
+//        for(Review review1: reviewList){
+//
+//            ratings.add(review1.getRating());
+//        }
+//        Double ratingSum=0.0;
+//        for(Double rating2: ratings){
+//            ratingSum += rating2;
+//        }
+//        Double avgRating=ratingSum/ratings.size();
+//        book1.setRating(avgRating);
+//    }
+
+
 
     public List<Book> getAllBooks(){
         List<Book> bookList=bookRepository.findAll();//bookRepository is mock for BookRepository i.e a dummy object for bookRepository which was created in test class
@@ -304,33 +342,7 @@ public void addBook(Book book){
 //
 //
 //
-//    // Method to add a review to a book
-//    @Override
-//    public void addReview(String bookId, Review review) {
-//        // Retrieve the book from the map by its ID
-//        Book book = bookMap.getOrDefault(bookId, null);
-//        // If the book exists
-//        if (book != null) {
-//            // Add the review to the book's review list
-//            book.getReviewList().add(review);
-//        }
-//        // Update the book in the map
-//        bookMap.put(bookId, book);
-//
-//       Book book1= bookMap.get(bookId);
-//        List<Review> reviewList= book1.getReviewList();
-//        List<Double> ratings= new ArrayList<Double>();
-//        for(Review review1: reviewList){
-//
-//             ratings.add(review1.getRating());
-//        }
-//        Double ratingSum=0.0;
-//        for(Double rating2: ratings){
-//            ratingSum += rating2;
-//        }
-//        Double avgRating=ratingSum/ratings.size();
-//        book1.setRating(avgRating);
-//    }
+
 //
 //
 ////    public void validateBook(Book book){

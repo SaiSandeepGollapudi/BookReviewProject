@@ -26,9 +26,11 @@ public class BookRequest {
     private Integer year;
     public Book getBook() {
         // Creates and returns a new Book object with the same attributes as the current book object
-        //This method is created to so that data inserted by user is take care here
+        //This method is created to so that data inserted by user is taken care here
 
         return Book.builder() // So we converted our BookRequest to Book // Starts building a new Book object using a builder it's better alternative to constructor and setters
+//Builders allow for optional parameters. You can choose which attributes to set when constructing the object. This flexibility is especially useful when dealing with objects that have
+// many optional attributes.
                 .title(this.title) // Sets the title of the new book to the same as the current book's title
                 .author(this.author) // Sets the author of the new book to the same as the current book's author
                 .rating(0.0) // Sets the rating of the new book to 0.0 (possibly a default value)
