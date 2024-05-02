@@ -18,7 +18,8 @@ public class AdminController {
     public ResponseEntity<Book> createBook(@RequestBody @Valid BookRequest bookRequest){
         bookService.addBook(bookRequest.getBook());
         return  new ResponseEntity<>(HttpStatus.CREATED);
-
+        //Clean and Rebuild: help in resolving the problem with Lombok not generating the builder method for your User class.
+//Rebuild Project: In IntelliJ IDEA, go to Build > Rebuild Project. This action will clean and rebuild the project from scratch, essentially performing both steps in one.
     }
 
     @PutMapping("admin/book")//PUT is used to update or replace an existing resource.

@@ -62,7 +62,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public void addReview(Integer bookId, Review review) {
         // Retrieve the book by its ID
-        Optional<Book> bookOptional = bookRepository.findById(bookId);
+        Optional<Book> bookOptional = bookRepository.findById(bookId);// The result is wrapped in an Optional to handle cases where the book may not exist.
         if (bookOptional.isPresent()) {
             Book book = bookOptional.get();
 
@@ -70,11 +70,11 @@ public class ReviewServiceImpl implements ReviewService {
             book.getReviewList().add(review);
 
             // Update the book's rating
-            updateBookRating(book);
+            updateBookRating(book);//is called to recalculate and update the book's rating based on its reviews.
 
             // Save the review
-            review.setBook(book);
-            reviewRepository.save(review);
+            review.setBook(book);//the review is associated with the book
+            reviewRepository.save(review);//  saved to the database using reviewRepository.save(review).
         } else {
             throw new IllegalArgumentException("Book with ID " + bookId + " not found");
         }
@@ -84,17 +84,30 @@ public class ReviewServiceImpl implements ReviewService {
         List<Review> reviewList = book.getReviewList();
         if (!reviewList.isEmpty()) {
             double totalRating = 0.0;
-            for (Review review : reviewList) {
+            for (Review review : reviewList) {//it calculates the total rating by summing up the ratings of all the reviews.
                 totalRating += review.getRating();
             }
-            double averageRating = totalRating / reviewList.size();
-            book.setRating(averageRating);
-            bookRepository.save(book);
+            double averageRating = totalRating / reviewList.size();// it calculates the average rating by dividing the total rating by the number of reviews.
+            book.setRating(averageRating);//The average rating is set to the book's rating attribute
+            bookRepository.save(book);//the updated book object is saved to the database
         }
     }
 
 }
-
+///Book book1= bookMap.get(bookId);
+//        List<Review> reviewList= book1.getReviewList();
+//        List<Double> ratings= new ArrayList<Double>();
+//        for(Review review1: reviewList){
+//
+//             ratings.add(review1.getRating());
+//        }
+//        Double ratingSum=0.0;
+//        for(Double rating2: ratings){
+//            ratingSum += rating2;
+//        }
+//        Double avgRating=ratingSum/ratings.size();
+//        book1.setRating(avgRating);
+//    }
 
 // Method to update the book's rating based on its reviews
 //    private void updateBookRating(Book book) {
@@ -116,21 +129,6 @@ public class ReviewServiceImpl implements ReviewService {
 //        book.setRating(averageRating);
 //        bookRepository.save(book);
 //    }
-  ///Book book1= bookMap.get(bookId);
-//        List<Review> reviewList= book1.getReviewList();
-//        List<Double> ratings= new ArrayList<Double>();
-//        for(Review review1: reviewList){
-//
-//             ratings.add(review1.getRating());
-//        }
-//        Double ratingSum=0.0;
-//        for(Double rating2: ratings){
-//            ratingSum += rating2;
-//        }
-//        Double avgRating=ratingSum/ratings.size();
-//        book1.setRating(avgRating);
-//    }
-
 
 //    @Override
 //    public void addReview(Review review) {
@@ -148,6 +146,10 @@ public class ReviewServiceImpl implements ReviewService {
 //
 //
 //    }
+
+
+
+
 
 
 
