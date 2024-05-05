@@ -11,7 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.util.CollectionUtils;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +36,9 @@ public class LibraryApplication implements CommandLineRunner {
 @Autowired
 BookCascadeSampleImpl bookCascadeSample;
 
+@Autowired
+	RedisTemplate<String,Object> redisTemplate;
+
 	@Override
 	public void run(String... args) throws Exception {
 
@@ -55,17 +58,32 @@ BookCascadeSampleImpl bookCascadeSample;
 
 		bookRepository.save(book);
 
-		List<Book> books =bookRepository.findAll();
 
-		//books=bookRepository.findByAuthor("JK Rowling");
+		redisTemplate.opsForValue().set("myJavaKey","myJavaValue");// opsForValue operations for key, value pair and the operation in redis can be done in java
+		System.out.println(redisTemplate.opsForValue().get("myJavaKey"));
+		redisTemplate.opsForList().rightPush("list",1);
 
-		books=bookRepository.findByTitleLike("testCascade");
+		redisTemplate.opsForList().rightPush("list",2);
+		redisTemplate.opsForList().rightPush("list",3);
+		redisTemplate.opsForList().rightPush("list",4);
 
-		if(!CollectionUtils.isEmpty(books)){
-			Book b=books.get(0);
-			bookCascadeSample.testCascade(b.getId());
+		System.out.println(redisTemplate.opsForList().leftPop("list"));
+		System.out.println(redisTemplate.opsForList().rightPop("list"));
 
-		}
+		redisTemplate.opsForHash().put("book",book.getTitle(),book);
+
+//		List<Book> books =bookRepository.findAll();
+//
+//
+//		//books=bookRepository.findByAuthor("JK Rowling");
+//
+//		books=bookRepository.findByTitleLike("testCascade");
+//
+//		if(!CollectionUtils.isEmpty(books)){
+//			Book b=books.get(0);
+//			bookCascadeSample.testCascade(b.getId());
+//}
+		}}
 
 //
 //		Book book= new Book();// every time we run the app a new book will get added in db.  It's a common practice to include such code in the run method of a Spring Boot
@@ -80,21 +98,21 @@ BookCascadeSampleImpl bookCascadeSample;
 //		this code snippet serves as an example of how to perform basic database operations using Spring Data JPA and demonstrates the usage of various query methods
 //		provided by the BookRepository.
 		//List<Book> books=bookRepository.findAll();
-
-		books=bookRepository.findByAuthor("JK Rowling");
-
-//		books=bookRepository.findByTitleLike("Harry%");
-
-
-		books=bookRepository.findByAuthorAndGenre("JK Rowling", Genre.valueOf("FANTASY"));
-
-		books=bookRepository.findByAuthorAndYear("JK Rowling",1999);
-		for(Book book1:books){
-			System.out.println(book1);
-		}
-
-	}
-}
+//
+//		books=bookRepository.findByAuthor("JK Rowling");
+//
+////		books=bookRepository.findByTitleLike("Harry%");
+//
+//
+//		books=bookRepository.findByAuthorAndGenre("JK Rowling", Genre.valueOf("FANTASY"));
+//
+//		books=bookRepository.findByAuthorAndYear("JK Rowling",1999);
+//		for(Book book1:books){
+//			System.out.println(book1);
+//		}
+//
+//	}
+//}
 		/***
 		 *
 		 * Steps for hibernate:

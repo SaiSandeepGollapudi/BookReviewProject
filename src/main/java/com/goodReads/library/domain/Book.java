@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
@@ -13,7 +14,7 @@ import java.util.List;
 @Table(name="books")
 @Entity
 @Builder
-public class Book {
+public class Book implements Serializable {
 
 // I should never allow my controller or BookRequest to play with my domain, i'm separating it out with for the safety concerns and better practices, it should only be
     // used for  handling the db and use another resource like BookRequest for getting data from user
