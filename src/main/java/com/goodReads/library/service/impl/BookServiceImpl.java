@@ -50,43 +50,6 @@ public void addBook(Book book){
 
     bookRepository.save(book);
 }
-
-
-    // Method to add a review to a book
-//    @Override
-//    public void addReview(Integer bookId, Review review) {
-//        // Retrieve the book from the map by its ID
-//        Book book = new Book();
-//        Optional<Book> bookOptional=bookRepository.findById(review.getBook().getId());
-//        if(bookOptional.isEmpty()){
-//            throw new IllegalArgumentException("Book Id does not exist");
-//        }
-//        else {
-//            // Add the review to the book's review list
-//            book.getReviewList().add(review);
-//        }
-//
-//        // Update the book in the map
-//        review.setBook(bookOptional.get());
-//        reviewRepository.save(review);
-//
-//        Optional<Book> bookOptional1= bookRepository.findById(bookId);
-//        List<Review> reviewList= bookOptional1.getReviewList();
-//        List<Double> ratings= new ArrayList<Double>();
-//        for(Review review1: reviewList){
-//
-//            ratings.add(review1.getRating());
-//        }
-//        Double ratingSum=0.0;
-//        for(Double rating2: ratings){
-//            ratingSum += rating2;
-//        }
-//        Double avgRating=ratingSum/ratings.size();
-//        book1.setRating(avgRating);
-//    }
-
-
-
     public List<Book> getAllBooks(){
         List<Book> bookList=bookRepository.findAll();//bookRepository is mock for BookRepository i.e a dummy object for bookRepository which was created in test class
         // it gives empty output, i.e. an object with all values as null, it doesn't go to db
@@ -201,6 +164,39 @@ public void addBook(Book book){
         return bookRepository.findByAuthorAndYear(author,year);
     }
 
+
+    // Method to add a review to a book
+//    @Override
+//    public void addReview(Integer bookId, Review review) {
+//        // Retrieve the book from the map by its ID
+//        Book book = new Book();
+//        Optional<Book> bookOptional=bookRepository.findById(review.getBook().getId());
+//        if(bookOptional.isEmpty()){
+//            throw new IllegalArgumentException("Book Id does not exist");
+//        }
+//        else {
+//            // Add the review to the book's review list
+//            book.getReviewList().add(review);
+//        }
+//
+//        // Update the book in the map
+//        review.setBook(bookOptional.get());
+//        reviewRepository.save(review);
+//
+//        Optional<Book> bookOptional1= bookRepository.findById(bookId);
+//        List<Review> reviewList= bookOptional1.getReviewList();
+//        List<Double> ratings= new ArrayList<Double>();
+//        for(Review review1: reviewList){
+//
+//            ratings.add(review1.getRating());
+//        }
+//        Double ratingSum=0.0;
+//        for(Double rating2: ratings){
+//            ratingSum += rating2;
+//        }
+//        Double avgRating=ratingSum/ratings.size();
+//        book1.setRating(avgRating);
+//    }
 
     // public List<Book> getBooksByRating(Double rating) {
 //     return bookRepository.findBooksByRating(rating);

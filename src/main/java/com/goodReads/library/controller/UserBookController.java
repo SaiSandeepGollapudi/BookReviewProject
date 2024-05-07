@@ -3,7 +3,6 @@ package com.goodReads.library.controller;
 import com.goodReads.library.Repositry.BookRepository;
 import com.goodReads.library.domain.Book;
 import com.goodReads.library.domain.Genre;
-import com.goodReads.library.domain.Review;
 import com.goodReads.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -92,7 +91,7 @@ public class UserBookController { // APIs are inside the controller
         }
     }
 
-    @GetMapping("/books")
+    @GetMapping("/book/AuthorAndYear")// here we cannot give '/book' same as get of all books we should give different URL
 //    localhost:8080/books?author=JK Rowling&year=1999
     public ResponseEntity<List<Book>> getBooksByAuthorAndYear(@RequestParam("author") String author, @RequestParam("year") Integer year) {
         if (!bookService.bookExistsByAuthorAndYear(author, year)) {

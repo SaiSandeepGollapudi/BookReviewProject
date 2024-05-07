@@ -18,8 +18,8 @@ public class UserRequest {
     private String username;
     @NotBlank(message = "password cannot be blank")
     private String password;
-//    @NotBlank(message = "role cannot be blank")
-//    private String role;
+    @NotBlank(message = "authority cannot be blank")
+    private String authority;
    @Email(message = "Enter a valid email address")// Ensures that the annotated element is a valid email address.
     private String email;
 
@@ -30,7 +30,7 @@ public class UserRequest {
         return User.builder()
                 .username(this.username)
                 .password(this.password)
-//                .role(this.role)
+                .authority(this.authority)
                 .email(this.email)
                 .phonenumber(this.phonenumber)
                 .build();

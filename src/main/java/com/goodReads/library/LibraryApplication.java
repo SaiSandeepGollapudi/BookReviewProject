@@ -37,17 +37,15 @@ public class LibraryApplication implements CommandLineRunner {
 BookCascadeSampleImpl bookCascadeSample;
 
 @Autowired
-	RedisTemplate<String,Object> redisTemplate;
+RedisTemplate<String,Object> redisTemplate;
 
 	@Override
 	public void run(String... args) throws Exception {
 
-
-		bookCascadeSample.testCascade(3);
-
+		//bookCascadeSample.testCascade(3);
 
 		Book book=new Book();
-		book.setTitle("testCascade");
+		book.setTitle("Hp-4");
 		book.setAuthor("JK Rowling");
 		book.setGenre(Genre.FANTASY);
 		book.setRating(5.0);
@@ -56,8 +54,7 @@ BookCascadeSampleImpl bookCascadeSample;
 		List<Review> reviews=new ArrayList<>();
 		reviews.add(new Review());
 
-		bookRepository.save(book);
-
+		//bookRepository.save(book);
 
 		redisTemplate.opsForValue().set("myJavaKey","myJavaValue");// opsForValue operations for key, value pair and the operation in redis can be done in java
 		System.out.println(redisTemplate.opsForValue().get("myJavaKey"));
@@ -67,10 +64,10 @@ BookCascadeSampleImpl bookCascadeSample;
 		redisTemplate.opsForList().rightPush("list",3);
 		redisTemplate.opsForList().rightPush("list",4);
 
-		System.out.println(redisTemplate.opsForList().leftPop("list"));
+		System.out.println(redisTemplate.opsForList().leftPop("list"));// you can see these values
 		System.out.println(redisTemplate.opsForList().rightPop("list"));
 
-		redisTemplate.opsForHash().put("book",book.getTitle(),book);
+		redisTemplate.opsForHash().put("book",book.getTitle(),book);//key is title, value is book
 
 //		List<Book> books =bookRepository.findAll();
 //
