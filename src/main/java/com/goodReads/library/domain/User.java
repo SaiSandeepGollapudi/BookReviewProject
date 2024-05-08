@@ -31,9 +31,11 @@ public class User implements UserDetails {
     private String phonenumber;
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {// to give authorities to a user
-        if(StringUtils.hasText(authority)){//if my role is not empty
-            //authority.split(",");// what if I want to give two authorities like ADMIN/USER or ADMIN/manager we can use this;
+    public Collection<? extends GrantedAuthority> getAuthorities() {// to return authorities of a user, returns a collection of objects that are subtypes of GrantedAuthority
+//Collection-return type of the method,<? extends GrantedAuthority> - ? symbol represents an unknown type. extends GrantedAuthority denotes that the unknown type must be a subtype of
+// GrantedAuthority.It represents the authority granted to the user, such as "USER" or "ADMIN". Using a wildcard allows flexibility in the types of authorities that can be returned.
+if(StringUtils.hasText(authority)){//StringUtils class provided by the Spring Framework's,used to validate input strings,to check if the authority attribute of a user is not empty
+            //authority.split(",");// what if I want to give two authorities like ADMIN/USER or ADMIN/manager so we use this;
             return Arrays.stream(authority.split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 //authority.split(","): This splits the authority string into an array of strings using commas as the delimiter. For example, if authority is "ADMIN,USER",
 // this will result in an array with two elements: "ADMIN" and "USER".
@@ -44,7 +46,7 @@ public class User implements UserDetails {
 //.collect(Collectors.toList()): This collects the elements of the stream into a List. After mapping each authority string to a SimpleGrantedAuthority object,
 // this operation collects these objects into a list.
 }
-        return Collections.emptyList();
+return Collections.emptyList();// is a defensive measure to handle the case where the authority string is empty or null,It shows that the user has no granted authorities in such cases.
     }
 
     @Override

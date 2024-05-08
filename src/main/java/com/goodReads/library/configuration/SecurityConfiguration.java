@@ -28,9 +28,10 @@ authorize//cross-Origin Resource Sharing (CORS) for your HTTP security, method a
 // CSRF protection helps prevent attackers from performing unauthorized actions on behalf of authenticated users. To include the CSRF token in each request, you typically need to obtain
 // the token from your application's frontend and include it in the request headers or body. But as ours don't have front end we disable it.
 .requestMatchers("/admin/**").hasAuthority("ADMIN")// if the url has admin followed by anything to access that they need Admin authority
- .requestMatchers("/book/**").hasAuthority("USER")
-        .requestMatchers("/user/**").hasAuthority("USER")
-.requestMatchers("/signup").permitAll()// to access signup, we don't need authentication/ authorization
+ .requestMatchers("/book/**").hasAuthority("USER")// .antMatchers("/book/**").hasAnyAuthority("ADMIN", "USER") .antMatchers() is primarily used for matching URL patterns,
+        .requestMatchers("/user/**").hasAuthority("USER")//while .requestMatchers() is used for defining more flexible request matching criteria beyond just URL patterns.
+//hasAnyAuthority() This configuration allows users with either "ADMIN" or "USER" authority to access URLs under "/admin/"
+        .requestMatchers("/signup").permitAll()// to access signup, we don't need authentication/ authorization
 .anyRequest().authenticated() // for any of these requests authentication is required
 ).formLogin(Customizer.withDefaults()).httpBasic(Customizer.withDefaults());// telling to only allow access via httpBasic i.e. response coming via API,
 // .formLogin gives the html login form

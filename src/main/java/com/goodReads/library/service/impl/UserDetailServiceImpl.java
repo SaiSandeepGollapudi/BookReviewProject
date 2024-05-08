@@ -13,13 +13,6 @@ import java.util.Optional;
 @Service
 public class UserDetailServiceImpl implements UserDetailsService, UserService {
      // * 3. Fetch the user from the databases -> UserDetailService Implementation
-
-    /**
-     * Create the userRepository
-     * Autowire here
-     * fetch user data from the repository.
-     * */
-
     @Autowired
     UserRepository userRepository;
 
@@ -35,6 +28,21 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
 
     public boolean userExists(Integer id) {
         return userRepository.existsById(id);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        if(userMap.containsKey(username)){
+//            return userMap.get(username);
+//        }
+        User username1 = userRepository.findByUsername(username);
+        if(username1!=null){
+            return username1;
+        }
+
+        else{
+            throw new UsernameNotFoundException("User not found");
+        }
     }
 
     public User updateUser(Integer Id, User updatedUserData) {
@@ -63,7 +71,12 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
         }
     }
 
-   // static Map<String, User> userMap = new HashMap<>();
+
+}
+
+
+
+// static Map<String, User> userMap = new HashMap<>();
 
 //    static {
 //
@@ -82,24 +95,6 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
 //        userMap.put(user2.getUsername(),user2);
 //
 //    }
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        if(userMap.containsKey(username)){
-//            return userMap.get(username);
-//        }
-        User username1 = userRepository.findByUsername(username);
-        if(username1!=null){
-            return username1;
-        }
-
-        else{
-            throw new UsernameNotFoundException("User not found");
-        }
-    }
-}
-
-
-
 
 //    @Override
 //    public List<User> getAllUsers() {

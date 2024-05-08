@@ -56,7 +56,7 @@ RedisTemplate<String,Object> redisTemplate;
 
 		//bookRepository.save(book);
 
-		redisTemplate.opsForValue().set("myJavaKey","myJavaValue");// opsForValue operations for key, value pair and the operation in redis can be done in java
+		redisTemplate.opsForValue().set("myJavaKey","myJavaValue");// opsForValue operations for key, value pair and the operations in redis can be done in java
 		System.out.println(redisTemplate.opsForValue().get("myJavaKey"));
 		redisTemplate.opsForList().rightPush("list",1);
 
@@ -67,7 +67,7 @@ RedisTemplate<String,Object> redisTemplate;
 		System.out.println(redisTemplate.opsForList().leftPop("list"));// you can see these values
 		System.out.println(redisTemplate.opsForList().rightPop("list"));
 
-		redisTemplate.opsForHash().put("book",book.getTitle(),book);//key is title, value is book
+		redisTemplate.opsForHash().put("book",book.getTitle(),book);// Hash Key: book is like table and key/Field "title" is like column and Value <book data> is like row
 
 //		List<Book> books =bookRepository.findAll();
 //
