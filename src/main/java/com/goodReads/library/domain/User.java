@@ -20,16 +20,26 @@ import java.util.stream.Collectors;
 @Entity
 @Builder
 public class User implements UserDetails {
-//.Entity class is responsible for Authentication and also Authorisation as it specifies Authorities
+    //.Entity class is responsible for Authentication and also Authorisation as it specifies Authorities
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String username;
     private String password;
     private String authority;
-        private String email;
+    private String email;
     private String phonenumber;
 
+//    public void setEmail(String email) {// here the email is tightly coupled with the object, we are referiing to
+//        //This method directly sets the email attribute of the current instance of the User class. used to directly modify the state of an object.
+//        this.email = email;//
+//    }
+//    public User setEmail(String email, User user) {// These methods ae directly designed like this by @Builder.It takes an email parameter along with a User object,
+//        // sets the email attribute of the provided User object, and returns the same object.here setEmail is an independent method. It doesn't directly modify the state
+//        //  of the current object but rather returns a new instance with the email set.
+//       user.setEmail(email);
+//    return user;
+//}
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {// to return authorities of a user, returns a collection of objects that are subtypes of GrantedAuthority
 //Collection-return type of the method,<? extends GrantedAuthority> - ? symbol represents an unknown type. extends GrantedAuthority denotes that the unknown type must be a subtype of
@@ -47,7 +57,7 @@ if(StringUtils.hasText(authority)){//StringUtils class provided by the Spring Fr
 // this operation collects these objects into a list.
 }
 return Collections.emptyList();// is a defensive measure to handle the case where the authority string is empty or null,It shows that the user has no granted authorities in such cases.
-    }
+}
 
     @Override
     public boolean isAccountNonExpired() {
@@ -68,5 +78,15 @@ return Collections.emptyList();// is a defensive measure to handle the case wher
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 }

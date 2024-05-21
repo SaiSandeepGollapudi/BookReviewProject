@@ -14,8 +14,8 @@ public class UserController {
     @Autowired
     UserService userService; // Autowired UserService to interact with the business logic
 
-    @PostMapping("/signup")
-    public ResponseEntity<User> createUser(@RequestBody @Valid UserRequest userRequest){
+    @PostMapping("/register")
+    public ResponseEntity<?> createUser(@RequestBody @Valid UserRequest userRequest){
         userService.addUser(userRequest.getUser());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -47,5 +47,7 @@ public class UserController {
 
         return new ResponseEntity<>(userService.updateUser(id, userRequest.getUser()),HttpStatus.OK);
     }
+
+
 
 }

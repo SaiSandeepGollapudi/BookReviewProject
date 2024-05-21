@@ -1,49 +1,97 @@
 package com.goodReads.library.service.impl;
+
+import com.goodReads.library.Exception.UserAlreadyExistsException;
 import com.goodReads.library.Repositry.UserRepository;
 import com.goodReads.library.domain.User;
 import com.goodReads.library.service.UserService;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class UserDetailServiceImpl implements UserDetailsService, UserService {
-     // * 3. Fetch the user from the databases -> UserDetailService Implementation
+public class UserDetailServiceImpl implements UserService {
+    // It will be helpful in Junit when we to replace our above original repository with this mocked Repository as we don't use
+    // the original db
+    // * 3. Fetch the user from the databases -> UserDetailService Implementation
+  ///  public class UserDetailServiceImpl implements UserDetailsService, UserService {
+
+        @Setter
     @Autowired
     UserRepository userRepository;
 
-    @Override
-    public void addUser(User user) {
-        userRepository.save(user);
-    }
-
-    public void deleteUser(Integer id){
-
-        userRepository.deleteById(id);
-    }
-
-    public boolean userExists(Integer id) {
-        return userRepository.existsById(id);
-    }
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 //        if(userMap.containsKey(username)){
 //            return userMap.get(username);
 //        }
-        User username1 = userRepository.findByUsername(username);
-        if(username1!=null){
-            return username1;
+     //   User user = userRepository.findByUsername(username);
+        Optional<User> optionalUser= userRepository.findByUsername(username);// benefit of using Optional is it forces you to check if the data is present or
+        // not to give you the data
+
+        if(optionalUser.isPresent()){
+            return optionalUser.get();
         }
 
         else{
             throw new UsernameNotFoundException("User not found");
         }
+        //  same as above but shortcut return optionalUser.orElseThrow(()-> new UsernameNotFoundException("User not found"));
+
+
     }
+
+//    @Override 2nd way
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+////        if(userMap.containsKey(username)){
+////            return userMap.get(username);
+////        }
+//        User username1 = userRepository.findByUsername(username);
+//        if(username1!=null){
+//            return username1;
+//        }
+//
+//        else{
+//            throw new UsernameNotFoundException("User not found");
+//        }
+
+    @Override
+    public void addUser(User user) {
+        Optional<User> optionalUser= userRepository.findByUsername(user.getUsername());
+        if (optionalUser.isEmpty()) {//true if a value is not present, otherwise false
+            //boolean existsByUsername(String username);
+            user.setAuthority("USER");
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            // Save the user if the username is unique
+            userRepository.save(user);
+        }
+        else{
+            throw new UserAlreadyExistsException("Username already exists");// any runtime exception is thrown its redirected to /error page
+        }
+
+    }
+//    @Override
+//    public void addUser(User user) {
+//        userRepository.save(user);
+//    }
+
+    public void deleteUser(Integer id){
+
+        userRepository.deleteById(id);
+    }
+
+    public boolean userExists(Integer id) {//   Return a response with HTTP status NOT_FOUND if the book does not exist
+
+        return userRepository.existsById(id);
+    }
+
 
     public User updateUser(Integer Id, User updatedUserData) {
         Optional<User> optionalOriginalUser = userRepository.findById(Id);// retrieve the original book entity from the repository based on the provided Id using

@@ -16,10 +16,9 @@ import lombok.Setter;
 public class UserRequest {
     @NotBlank(message = "username cannot be blank")
     private String username;
-    @NotBlank(message = "password cannot be blank")
+    @NotBlank(message = "password cannot be blank")// usually the password validation like upper & lower case etc. are automatically taken care by front end
     private String password;
-    @NotBlank(message = "authority cannot be blank")
-    private String authority;
+
    @Email(message = "Enter a valid email address")// Ensures that the annotated element is a valid email address.
     private String email;
 
@@ -30,7 +29,7 @@ public class UserRequest {
         return User.builder()
                 .username(this.username)
                 .password(this.password)
-                .authority(this.authority)
+              //  .authority(this.authority)
                 .email(this.email)
                 .phonenumber(this.phonenumber)
                 .build();

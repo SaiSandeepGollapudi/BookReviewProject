@@ -1,7 +1,9 @@
 package com.goodReads.library.configuration;
 
+import com.goodReads.library.Exception.UserAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -39,6 +41,13 @@ public ResponseEntity<?> handleNullPointerException(NullPointerException e){
     }
 
 
+@ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<?> handleUserAlreadyExistsException(UserAlreadyExistsException e){
+    Map<String, String> errorsMap = new HashMap<>();
+    errorsMap.put("message", e.getMessage());
 
+    return new ResponseEntity<>(errorsMap,HttpStatus.BAD_REQUEST);// if we don't write this custom exception, when this exception occurs it will return 500 as its
+    // a type of run time exception. This constructs a ResponseEntity with the error message as the body
+}
 
 }
