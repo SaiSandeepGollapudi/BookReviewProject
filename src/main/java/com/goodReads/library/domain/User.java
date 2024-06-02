@@ -30,7 +30,7 @@ public class User implements UserDetails {
     private String email;
     private String phonenumber;
 
-//    public void setEmail(String email) {// here the email is tightly coupled with the object, we are referiing to
+//    public void setEmail(String email) {// here the email is tightly coupled with the object we are referiing to
 //        //This method directly sets the email attribute of the current instance of the User class. used to directly modify the state of an object.
 //        this.email = email;//
 //    }

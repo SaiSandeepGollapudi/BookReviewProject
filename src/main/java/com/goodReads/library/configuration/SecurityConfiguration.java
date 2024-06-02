@@ -26,10 +26,12 @@ public class   SecurityConfiguration {
     @Bean// at the start of the app it gets loaded it's
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{//5. Check if the user has authority on API i.e.check the SecurityFilterChain
 // the object which we work on is httpSecurity. CSRF token is a security measure used to prevent Cross-Site Request Forgery attacks by validating the authenticity of requests.
-httpSecurity.csrf(csrf->csrf.disable());
-
-        httpSecurity.authorizeHttpRequests(authorize -> // authorizeHttpRequests() is used to authorize all my Http requests
-authorize// .csrf(c->c.disable()) disabling it because the postman cannot send csrf token whereas a browser can send csrf to backend app, instead of disable we can
+        httpSecurity.cors(Customizer.withDefaults()).csrf(c->c.disable()).authorizeHttpRequests(authorize -> // authorizeHttpRequests() is used to authorize all my Http requests
+                        authorize
+//httpSecurity.csrf(csrf->csrf.disable());
+//
+//        httpSecurity.authorizeHttpRequests(authorize -> // authorizeHttpRequests() is used to authorize all my Http requests
+//authorize// .csrf(c->c.disable()) disabling it because the postman cannot send csrf token whereas a browser can send csrf to backend app, instead of disable we can
 // also configure that allow from this origin or that server, or don't allow from this server like that. Usually from the backend we disable only cors  and allow only
 // the domain of React server so that if any other sites try to request, they get error
 
@@ -40,7 +42,7 @@ authorize// .csrf(c->c.disable()) disabling it because the postman cannot send c
 // CSRF protection helps prevent attackers from performing unauthorized actions on behalf of authenticated users. To include the CSRF token in each request, you typically
 // need to obtain the token from your application's frontend and include it in the request headers or body. But as ours don't have front end we disable it.
    //    .requestMatchers("**").permitAll()//"**" pattern is a wildcard this configuration applies security rules to all requests. so it permits all requests
-        .requestMatchers("/csrf").permitAll()// it will give the csrf token which can saved to be used in the future.
+       // .requestMatchers("/csrf").permitAll()// it will give the csrf token which can saved to be used in the future.
         .requestMatchers("/admin/**").hasAuthority("ADMIN")
         .requestMatchers("/greet/**").hasAuthority("USER")
         .requestMatchers("/admin/**").hasAuthority("ADMIN")// if the url has admin followed by anything to access that they need Admin authority
@@ -49,6 +51,8 @@ authorize// .csrf(c->c.disable()) disabling it because the postman cannot send c
 //hasAnyAuthority() This configuration allows users with either "ADMIN" or "USER" authority to access URLs under "/admin/"
         .requestMatchers("/register").permitAll()// to access signup, we don't need authentication/ authorization
         .requestMatchers("/login").permitAll()
+   .requestMatchers("/success").permitAll()
+                                .requestMatchers("/book").permitAll()
         .requestMatchers("/error").permitAll()// if we don't permit this, when error occurs it shows 401 unauthorized but if we handled the exsception using
         .anyRequest().authenticated() // for any of these requests authentication is required
 ).formLogin(Customizer.withDefaults()).httpBasic(Customizer.withDefaults()).oauth2Login(Customizer.withDefaults());//telling to only authenticate access via httpBasic i.e. through postman i.e. response coming via API,
