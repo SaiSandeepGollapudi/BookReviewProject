@@ -43,7 +43,6 @@ public class   SecurityConfiguration {
 // need to obtain the token from your application's frontend and include it in the request headers or body. But as ours don't have front end we disable it.
    //    .requestMatchers("**").permitAll()//"**" pattern is a wildcard this configuration applies security rules to all requests. so it permits all requests
        // .requestMatchers("/csrf").permitAll()// it will give the csrf token which can saved to be used in the future.
-        .requestMatchers("/admin/**").hasAuthority("ADMIN")
         .requestMatchers("/greet/**").hasAuthority("USER")
         .requestMatchers("/admin/**").hasAuthority("ADMIN")// if the url has admin followed by anything to access that they need Admin authority
  .requestMatchers("/book/**").hasAuthority("USER")// .antMatchers("/book/**").hasAnyAuthority("ADMIN", "USER") .antMatchers() is primarily used for matching URL patterns,
@@ -51,12 +50,16 @@ public class   SecurityConfiguration {
 //hasAnyAuthority() This configuration allows users with either "ADMIN" or "USER" authority to access URLs under "/admin/"
         .requestMatchers("/register").permitAll()// to access signup, we don't need authentication/ authorization
         .requestMatchers("/login").permitAll()
-   .requestMatchers("/success").permitAll()
-                                .requestMatchers("/book").permitAll()
+//to logout from github http://localhost:8080/login?logout
         .requestMatchers("/error").permitAll()// if we don't permit this, when error occurs it shows 401 unauthorized but if we handled the exsception using
         .anyRequest().authenticated() // for any of these requests authentication is required
-).formLogin(Customizer.withDefaults()).httpBasic(Customizer.withDefaults()).oauth2Login(Customizer.withDefaults());//telling to only authenticate access via httpBasic i.e. through postman i.e. response coming via API,
-// .formLogin gives the html login form to
+).formLogin(Customizer.withDefaults()).httpBasic(Customizer.withDefaults()).oauth2Login(Customizer.withDefaults());
+ // after login through git we get redirected to error page as ours is backend app and we didn't set up any
+ // home page for our app. To know if we are logged in go to http://localhost:8080/readoauth. to retrieve the
+ // values of user who is currently logged in via git, it's stored in Authentication object of method readoauth().
+ // we have access to this data till he is logged in to logout from github http://localhost:8080/login?logout
+//telling to only authenticate access via httpBasic i.e. through postman i.e. response coming via API,
+// .formLogin gives the html login form to. //It will extract the authentication information of the current user and return it as a JSON string.
 return httpSecurity.build();// we are using build editor, Builds and returns the configured httpSecurity object. In Spring Security, when you configure security settings using the
 // httpSecurity object, you typically don't need to explicitly call build() at the end of the configuration. The httpSecurity object itself holds the configuration and is automatically applied by Spring Security to filter incoming HTTP requests.
 //  http://localhost:8080/admin/greet/saig now if you use user credentials for this it says 403 authenticated but not authorized but it works for this
